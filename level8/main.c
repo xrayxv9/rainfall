@@ -80,7 +80,10 @@ int main(void)
 			service = strdup(val + 3);
 		else if (!strcmp(val, "login"))
 		{
-
+			if (!auth[8])
+				fwrite("Password\n", 1, 10, stdin);
+			else
+				system("/bin/sh");
 		}
 	}
 >>>>>>> 36b6ceb (level8 .c not done)
