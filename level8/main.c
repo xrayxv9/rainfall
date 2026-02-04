@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -47,4 +48,40 @@ int main(void) {
         }
     }
     return 0;
+=======
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
+#define true 1
+
+int main(void)
+{
+	char *auth = NULL;
+	char *service = NULL;
+	char buffer[128];
+
+	while (true)
+	{
+		printf("%p %p\n", auth, service);
+		
+		char *val = fgets(buffer, 0x80, stdin);
+		if (!strcmp(val, "auth "))
+		{
+			auth = malloc(4);
+			*auth = '\0';
+		}
+		else if (!strcmp(val, "reset"))
+		{
+			if (auth)
+				free(auth);
+		}
+		else if (!strcmp(val, "service"))
+			service = strdup(val + 3);
+		else if (!strcmp(val, "login"))
+		{
+
+		}
+	}
+>>>>>>> 36b6ceb (level8 .c not done)
 }
