@@ -255,8 +255,12 @@ Why ? because now we have copied 19 characters:
 So he have copied characters
 **GGs here we have an overflow**
 So to finish. All this is a Flipping memcpy optimised for ASM, hard coded for 19 bytes with a buffer of 16.
+But we can't copy any kind of Hello,
+We have to take the finnish one, why ? because of the characters that we saw earlier, they are not ascii characters but UTF-8, which means that they are coded on 2 bytes insteadof one !
+Hyvää päivää -> pure length = 14.
+Hyvää päivää -> memory length = 17
+Yes just enough to go beyoud the buffer
 Yes 30 lines just for that.
-
 ```
 804850a:       8d 45 08                lea    eax,[ebp+0x8]
 804850d:       89 44 24 04             mov    DWORD PTR [esp+0x4],eax
