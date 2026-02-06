@@ -68,6 +68,7 @@ There we begin by puting the av into eax, then taking the first av[1],
 With that we push 40 in the stack, then we push our av[1], and to finish we push the buffer that we created earlier into strncpy.
 Then we call strncpy reminder, our buffer a 80bytes large buffer, but we copy 40, So we did not overflow here,
 moreover there are still half the size remaining
+
 ```
 804857c:       8b 45 0c                mov    eax,DWORD PTR [ebp+0xc]
 804857f:       83 c0 08                add    eax,0x8
@@ -92,7 +93,7 @@ We can see first that we move somthing in the stack, what is it ?
 it is a string, how do we know ? by goind into gdb,
 ```
 bonus2@RainFall:~$ gdb --tui ./bonus2
-(gdb) x/s 0x8048738
+(gdb) x/s 0x804873
 "LANG"
 ```
 So we know that this is LANG and that it is put into the getenv, so if we change the enrionment path the result should change too
@@ -137,7 +138,7 @@ test   eax,eax
 8048602:       89 04 24                mov    DWORD PTR [esp],eax
 8048605:       e8 56 fd ff ff          call   8048360 <memcmp@plt>
 ```
-Ok this time we begin by verifying whetherour return value is 0 or not.
+Ok this time we begin by verifying whether our return value is 0 or not.
 if it is that means that we begin by fi...
 if it's not starting by that jump 3 lines further.
 If it is then we put a global variable to 1 (0x8049988)
@@ -151,8 +152,7 @@ bonus2@RainFall:~$ gdb --tui ./bonus2
 (gdb) x/s 0x8048740
 nl
 ```
-So we push nl, and we compare it to stille the EV
-
+So we push nl, and we still compare it to the EV
 So this whole code would be like an 
 if 
 else if
@@ -175,7 +175,7 @@ else
 These are the last commands of the main:
 like the last time we begin by comparing the eax with itself to see if it's 0
 like last time we put a value in the global this time it's 2
-if it's not then we jump to the same place as last time (8048618) (we will se later)
+if it's not then we jump to the same place as last time (8048618) (we will see later)
 ok this time what happens though,
 we set up variables the exact same way as the last time with the bzero like.
 but this time instead of puting 0, we do like a cpy of the chars,
