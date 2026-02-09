@@ -7,12 +7,12 @@ static u_int32_t _m = 0;
 
 void v(void)
 {
-	char format[0x218];
+	char format[512];
 
-    fgets(&format, 0x200, stdin);
-    printf(&format);
-    if (_m == 0x40) {
-        fwrite("Wait what?!\n", 1, 0xc, stdout);
+    fgets(format, 512, stdin);
+    printf(format);
+    if (_m == 64) {
+        fwrite("Wait what?!\n", 1, 12, stdout);
         system("/bin/sh");
     }
     return;

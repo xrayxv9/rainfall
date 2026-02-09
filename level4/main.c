@@ -6,20 +6,20 @@ unsigned long _m = 0x0;
 void n(void);
 void p(char *format);
 
-void main(void)
+int main(void)
 {
     n();
-    return;
+    return 0;
 }
 
 
 void n(void)
 {
-	char s[0x218];
+	char s[512];
     
-    fgets(&s, 0x200, stdin);
-    p((char *)&s);
-    if (_m == 0x1025544) {
+    fgets(s, 512, stdin);
+    p(s);
+    if (_m == 16930116) {
         system("/bin/cat /home/user/level5/.pass");
     }
     return;

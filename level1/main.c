@@ -6,18 +6,15 @@
 
 int	main(void)
 {
-	char	*s;
+	char buf[64];
 
-	gets(&s);
+	gets(buf);
 	return (0);
 }
 
 void run(void)
 {
-	char buf[0x18];
-
     fwrite("Good... Wait what?\n", 1, 0x13, stdout);
     system("/bin/sh");
-    return;
 }
 

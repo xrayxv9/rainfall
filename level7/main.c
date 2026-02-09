@@ -30,7 +30,7 @@ int main(int ac, char **argv)
 	strcpy(node2->buffer, argv[2]);
 
     stream = fopen("/home/user/level8/.pass", "r");
-    fgets(c, 0x44, stream);
+    fgets(c, 68, stream);
     puts("~~");
     return 0;
 }

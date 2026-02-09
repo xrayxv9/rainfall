@@ -9,10 +9,10 @@ void o()
 
 void n()
 {
-	char str[536];
+	char format[512];
 
-	fgets(str, 512, stdin);
-	printf(str);
+	fgets(format, 512, stdin);
+	printf(format);
 	exit(1);
 }
 

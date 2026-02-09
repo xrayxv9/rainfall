@@ -13,19 +13,17 @@ int	main(void)
 
 void	p(void)
 {
-	int32_t	unaff_retaddr;
-	int32_t	var_68h;
-	char	*src;
-	int32_t	var_10h;
+	char buffer[64];
+	void *retaddr;
 
 	fflush(stdout);
-	gets(&src);
-	if ((unaff_retaddr & 0xb0000000) == 0xb0000000)
+	gets(buffer);
+	if (((unsigned long int)retaddr & 0xb0000000) == 0xb0000000)
 	{
-		printf("(%p)\n", unaff_retaddr);
+		printf("(%p)\n", retaddr);
 		_exit(1);
 	}
-	puts(&src);
-	strdup(&src);
+	puts(buffer);
+	strdup(buffer);
 	return ;
 }
